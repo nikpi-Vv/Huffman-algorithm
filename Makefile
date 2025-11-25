@@ -3,9 +3,9 @@ CC = gcc
 # Флаги компиляции
 CFLAGS = -Wall -Wextra -std=c99 -O2
 # Целевой файл
-TARGET = huffman
+TARGET = hahman
 # Исходники
-SOURCES = huffman.c treelist.c
+SOURCES = hahman.c treelist.c codec.c
 # Объектные файлы
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -19,8 +19,8 @@ $(TARGET): $(OBJECTS)
 
 # Очистка
 clean:
-	rm -f $(OBJECTS) $(TARGET) $(TARGET).exe
-
+	del /Q hahman.o treelist.o codec.o hahman.exe
+	
 # Запуск программы
 run: $(TARGET)
 	./$(TARGET)

@@ -100,3 +100,47 @@ struct node_t * make_tree(struct node_t *root) {
     return root;
 }
 
+// Заполняет таблицу кодов символов путём обхода дерева
+void make_code_table(struct node_t *root, code_table_t *table) {
+    // Инициализируем таблицу (все коды = пусто)
+    for (int i = 0; i < 256; i++) {
+        table->codes[i].length = 0;
+    }
+    
+    // Вспомогательный буфер для текущего кода (рекурсия!)
+    unsigned char current_code[256]; //чтобы хранить путь по дереву от корня до каждого листа 
+    int code_length = 0;//длина этого маршрута (номер шага вниз)
+    
+    // Начинаем рекурсивный обход с корня
+    generate_codes(root, table, current_code, code_length);
+}
+
+// Рекурсивно обходит дерево и заполняет коды
+void generate_codes(struct node_t *node, code_table_t *table, 
+                    unsigned char *current_code, int code_length) {
+    
+    // Базовый случай: если узел = лист (символ!)
+    if (node->left == NULL && node->right == NULL) { //Лист — сохраняем результат и выходим
+        // Это листик, сохраняем его код
+        for (int i = 0; i < code_length; i++) {
+            table->codes[node->symbol].bits[i] = current_code[i];
+        }
+        table->codes[node->symbol].length = code_length;
+        return;
+    }
+    
+    // Рекурсивный случай: идём влево и вправо
+    
+    // Идём ВЛЕВО (добавляем бит 0)
+    if (node->left != NULL) {
+        current_code[code_length] = 0;  // Добавляем 0
+        generate_codes(node->left, table, current_code, code_length + 1);
+    }
+    
+    // Идём ВПРАВО (добавляем бит 1)
+    if (node->right != NULL) {
+        current_code[code_length] = 1;  // Добавляем 1
+        generate_codes(node->right, table, current_code, code_length + 1);
+    }
+}
+
