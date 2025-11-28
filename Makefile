@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -std=c99 -O2
 # Целевой файл
 TARGET = hahman
 # Исходники
-SOURCES = hahman.c treelist.c codec.c
+SOURCES = hahman.c treelist.c codec.c utils.c
 # Объектные файлы
 OBJECTS = $(SOURCES:.c=.o)
 
